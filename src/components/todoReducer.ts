@@ -26,7 +26,7 @@ export function todoReducer(todos: Todo[], action: ActionTodo) {
       );
     }
     default: {
-      throw new Error("Unknown action");
+      return todos;
     }
   }
 }
