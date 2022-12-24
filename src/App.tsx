@@ -3,6 +3,7 @@ import InputField from './components/InputField'
 import TodoList from './components/TodoList'
 import { useState, useReducer } from 'react'
 import { todoReducer } from './components/todoReducer'
+import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 
 const App: React.FC = () => {
   const [todoText, setTodoText] = useState<string>('')
@@ -12,7 +13,7 @@ const App: React.FC = () => {
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault()
 
-    dispatchToRemove({
+    dispatchTodo({
       type: 'add',
       id: Date.now(),
       todoText,
@@ -22,22 +23,64 @@ const App: React.FC = () => {
     setTodoText('')
   }
 
+  const onDragEnd = (result: DropResult) => {
+    // console.log(result)
+    const { source, destination } = result
+
+    if (!destination) return
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    )
+      return
+
+    let item
+    if (source.droppableId === 'TodosList') {
+      item = todos[source.index]
+      dispatchTodo({
+        type: 'delete',
+        id: item.id,
+      })
+    } else {
+      item = toRemoves[source.index]
+      dispatchToRemove({
+        type: 'delete',
+        id: item.id,
+      })
+    }
+
+    console.log(item)
+    if (destination.droppableId === 'TodosList') {
+      dispatchTodo({
+        type: 'add',
+        ...item,
+      })
+    } else {
+      dispatchToRemove({
+        type: 'add',
+        ...item,
+      })
+    }
+  }
+
   return (
     <>
-      <main className="App">
-        <span className="heading">Taskify</span>
-        <InputField
-          todoText={todoText}
-          setTodoText={setTodoText}
-          handleAdd={handleAdd}
-        />
-        <TodoList
-          todos={todos}
-          dispatchTodo={dispatchTodo}
-          toRemoves={toRemoves}
-          dispatchToRemove={dispatchToRemove}
-        />
-      </main>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <main className="App">
+          <span className="heading">Taskify</span>
+          <InputField
+            todoText={todoText}
+            setTodoText={setTodoText}
+            handleAdd={handleAdd}
+          />
+          <TodoList
+            todos={todos}
+            dispatchTodo={dispatchTodo}
+            toRemoves={toRemoves}
+            dispatchToRemove={dispatchToRemove}
+          />
+        </main>
+      </DragDropContext>
     </>
   )
 }
