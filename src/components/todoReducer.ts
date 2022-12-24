@@ -8,7 +8,7 @@ export function todoReducer(todos: Todo[], action: ActionTodo) {
         {
           id: Date.now(),
           todoText: action.todoText,
-          isDone: false,
+          isDone: action.isDone,
         },
       ];
     }
