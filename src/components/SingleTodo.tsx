@@ -80,7 +80,12 @@ const SingleTodo: React.FC<Props> = ({ index, todo, todos, dispatchTodo }) => {
             <span className="icon" onClick={() => handleDelete(todo.id)}>
               <AiFillDelete />
             </span>
-            <span className="icon" onClick={() => handleDone(todo.id)}>
+            <span
+              className="icon"
+              onClick={
+                editOn ? (e) => handleSubmit(e) : () => handleDone(todo.id)
+              }
+            >
               <MdDone />
             </span>
           </div>
