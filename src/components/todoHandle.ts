@@ -48,9 +48,6 @@ export function deleteTodo(
   } catch (err) {
     console.log(err);
   }
-
-  console.log("After Dispatch");
-  console.log(debug);
 }
 
 export function editTodo(
@@ -74,6 +71,33 @@ export function editTodo(
       type: "edit",
       editText,
       id,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function insertTodo(
+  index: number,
+  item: Todo,
+  dispatch: (value: ActionTodo) => void,
+  cat: string
+) {
+  try {
+    const insertItem = async () => {
+      const res = await api.put("/insert", {
+        cat,
+        index,
+        item,
+      });
+      console.log(res);
+    };
+    insertItem();
+
+    dispatch({
+      type: "insert",
+      index,
+      item,
     });
   } catch (err) {
     console.log(err);

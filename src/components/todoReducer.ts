@@ -16,6 +16,11 @@ export function todoReducer(todos: Todo[], action: ActionTodo) {
         },
       ];
     }
+    case "insert": {
+      const newTodos = [...todos];
+      newTodos.splice(action.index, 0, action.item);
+      return newTodos;
+    }
     case "done": {
       return todos.map((item) => {
         return item.id === action.id ? { ...item, isDone: !item.isDone } : item;
@@ -23,9 +28,9 @@ export function todoReducer(todos: Todo[], action: ActionTodo) {
     }
     case "delete": {
       // console.log(action.id);
-      console.log(todos);
+      // console.log(todos);
       return todos.filter((item) => {
-        if (item.id === action.id) console.log("Found");
+        // if (item.id === action.id) console.log("Found");
         return item.id !== action.id;
       });
     }

@@ -7,7 +7,7 @@ import InputField from './components/InputField'
 import TodoList from './components/TodoList'
 import { todoReducer } from './components/todoReducer'
 import { api } from './utils/axios'
-import { addTodo, deleteTodo } from './components/todoHandle'
+import { addTodo, deleteTodo, insertTodo } from './components/todoHandle'
 
 const App: React.FC = () => {
   const [todoText, setTodoText] = useState<string>('')
@@ -36,13 +36,9 @@ const App: React.FC = () => {
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault()
 
-    try {
-      const newItem = { id: Date.now(), todoText, isDone: false }
-      addTodo(newItem, dispatchTodo, 'todos')
-      setTodoText('')
-    } catch (err) {
-      console.log(err)
-    }
+    const newItem = { id: Date.now(), todoText, isDone: false }
+    addTodo(newItem, dispatchTodo, 'todos')
+    setTodoText('')
   }
 
   const onDragEnd = (result: DropResult) => {
@@ -57,20 +53,23 @@ const App: React.FC = () => {
       return
 
     let item
+    console.log(`Source Index: ${source.index}`)
+    console.log(`Dest Index: ${destination.index}`)
+
     if (source.droppableId === 'TodosList') {
       item = todos[source.index]
-      console.log('Delete todo')
+      console.log(`Delete ${item.todoText}`)
       deleteTodo(item.id, dispatchTodo, 'todos', todos)
     } else {
       item = toRemoves[source.index]
       deleteTodo(item.id, dispatchToRemove, 'toRemoves', toRemoves)
     }
 
-    console.log(item)
+    // console.log(item)
     if (destination.droppableId === 'TodosList') {
-      addTodo(item, dispatchTodo, 'todos')
+      insertTodo(destination.index, item, dispatchTodo, 'todos')
     } else {
-      addTodo(item, dispatchTodo, 'toRemoves')
+      insertTodo(destination.index, item, dispatchToRemove, 'toRemoves')
     }
   }
 
