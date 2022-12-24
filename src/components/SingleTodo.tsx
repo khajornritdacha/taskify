@@ -72,7 +72,7 @@ const SingleTodo: React.FC<Props> = ({ index, todo, todos, dispatchTodo }) => {
             <span className="todos__single--text">{todo.todoText}</span>
           )}
           <div>
-            {!editOn && (
+            {!editOn && !todo.isDone && (
               <span className="icon" onClick={() => setEditOn(true)}>
                 <AiFillEdit />
               </span>
@@ -80,9 +80,17 @@ const SingleTodo: React.FC<Props> = ({ index, todo, todos, dispatchTodo }) => {
             <span className="icon" onClick={() => handleDelete(todo.id)}>
               <AiFillDelete />
             </span>
-            <span className="icon" onClick={() => handleDone(todo.id)}>
-              <MdDone />
-            </span>
+            {!editOn ? (
+              <span className="icon" onClick={() => handleDone(todo.id)}>
+                <MdDone />
+              </span>
+            ) : (
+              // <span className="icon">
+              <button type="submit" className="icon submitBtn">
+                <MdDone />
+              </button>
+              // </span>
+            )}
           </div>
         </form>
       )}
