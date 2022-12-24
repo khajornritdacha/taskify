@@ -1,52 +1,52 @@
-import './style.css'
-import { Todo, ActionTodo } from '../models/model'
-import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
-import { MdDone } from 'react-icons/md'
-import { useEffect, useRef, useState } from 'react'
-import { Draggable } from 'react-beautiful-dnd'
+import './style.css';
+import { Todo, ActionTodo } from '../models/model';
+import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
+import { MdDone } from 'react-icons/md';
+import { useEffect, useRef, useState } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 
 interface Props {
-  index: number
-  todo: Todo
-  todos: Todo[]
-  dispatchTodo: React.Dispatch<ActionTodo>
+  index: number;
+  todo: Todo;
+  todos: Todo[];
+  dispatchTodo: React.Dispatch<ActionTodo>;
 }
 
 const SingleTodo: React.FC<Props> = ({ index, todo, todos, dispatchTodo }) => {
-  const [editOn, setEditOn] = useState<boolean>(false)
-  const [editText, setEditText] = useState<string>(todo.todoText)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [editOn, setEditOn] = useState<boolean>(false);
+  const [editText, setEditText] = useState<string>(todo.todoText);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDone = (id: number) => {
-    if (editOn) return
+    if (editOn) return;
 
     dispatchTodo({
       type: 'done',
       id,
-    })
-  }
+    });
+  };
 
   const handleDelete = (id: number) => {
     dispatchTodo({
       type: 'delete',
       id,
-    })
-  }
+    });
+  };
 
   const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    setEditOn(false)
+    setEditOn(false);
     dispatchTodo({
       type: 'edit',
       editText,
       id: todo.id,
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    inputRef.current?.focus()
-  }, [editOn])
+    inputRef.current?.focus();
+  }, [editOn]);
 
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>
@@ -92,7 +92,7 @@ const SingleTodo: React.FC<Props> = ({ index, todo, todos, dispatchTodo }) => {
         </form>
       )}
     </Draggable>
-  )
-}
+  );
+};
 
-export default SingleTodo
+export default SingleTodo;
