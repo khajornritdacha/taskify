@@ -6,15 +6,23 @@ import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { MdDone } from 'react-icons/md'
 
 import { ActionTodo, Todo } from '../models/model'
+import { deleteTodo, editTodo } from './todoHandle'
 
 interface Props {
   index: number
   todo: Todo
   todos: Todo[]
   dispatchTodo: React.Dispatch<ActionTodo>
+  cat: string
 }
 
-const SingleTodo: React.FC<Props> = ({ index, todo, todos, dispatchTodo }) => {
+const SingleTodo: React.FC<Props> = ({
+  index,
+  todo,
+  todos,
+  dispatchTodo,
+  cat,
+}) => {
   const [editOn, setEditOn] = useState<boolean>(false)
   const [editText, setEditText] = useState<string>(todo.todoText)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -29,21 +37,14 @@ const SingleTodo: React.FC<Props> = ({ index, todo, todos, dispatchTodo }) => {
   }
 
   const handleDelete = (id: number) => {
-    dispatchTodo({
-      type: 'delete',
-      id,
-    })
+    deleteTodo(id, dispatchTodo, cat, todos)
   }
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
 
     setEditOn(false)
-    dispatchTodo({
-      type: 'edit',
-      editText,
-      id: todo.id,
-    })
+    editTodo(todo.id, editText, dispatchTodo, cat)
   }
 
   useEffect(() => {

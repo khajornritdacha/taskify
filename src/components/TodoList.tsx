@@ -38,6 +38,7 @@ const TodoList: React.FC<Props> = ({
                     todo={todo}
                     todos={todos}
                     dispatchTodo={dispatchTodo}
+                    cat="todos"
                   />
                 )
               })}
@@ -65,6 +66,7 @@ const TodoList: React.FC<Props> = ({
                     todo={todo}
                     todos={toRemoves}
                     dispatchTodo={dispatchToRemove}
+                    cat="toRemoves"
                   />
                 )
               })}

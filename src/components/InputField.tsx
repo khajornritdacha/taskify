@@ -1,21 +1,22 @@
-import React, { useRef } from 'react';
-import './style.css';
+import React, { useRef } from 'react'
+import './style.css'
+import { api } from '../utils/axios'
 
 interface Props {
-  todoText: string;
-  setTodoText: React.Dispatch<React.SetStateAction<string>>;
-  handleAdd: (e: React.FormEvent) => void;
+  todoText: string
+  setTodoText: React.Dispatch<React.SetStateAction<string>>
+  handleAdd: (e: React.FormEvent) => void
 }
 
 const InputField: React.FC<Props> = ({ todoText, setTodoText, handleAdd }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null)
 
   return (
     <form
       className="input"
       onSubmit={(e) => {
-        inputRef.current?.blur();
-        handleAdd(e);
+        inputRef.current?.blur()
+        handleAdd(e)
       }}
     >
       <input
@@ -31,7 +32,7 @@ const InputField: React.FC<Props> = ({ todoText, setTodoText, handleAdd }) => {
         Go
       </button>
     </form>
-  );
-};
+  )
+}
 
-export default InputField;
+export default InputField

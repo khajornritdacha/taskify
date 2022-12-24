@@ -10,7 +10,7 @@ export function todoReducer(todos: Todo[], action: ActionTodo) {
       return [
         ...todos,
         {
-          id: Date.now(),
+          id: action.id,
           todoText: action.todoText,
           isDone: action.isDone,
         },
@@ -22,7 +22,12 @@ export function todoReducer(todos: Todo[], action: ActionTodo) {
       });
     }
     case "delete": {
-      return todos.filter((item) => item.id !== action.id);
+      // console.log(action.id);
+      console.log(todos);
+      return todos.filter((item) => {
+        if (item.id === action.id) console.log("Found");
+        return item.id !== action.id;
+      });
     }
     case "edit": {
       return todos.map((item) =>
