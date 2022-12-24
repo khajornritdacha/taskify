@@ -2,17 +2,17 @@ import './App.css'
 import InputField from './components/InputField'
 import TodoList from './components/TodoList'
 import { useState, useReducer } from 'react'
-import { Todo } from './models/model'
 import { todoReducer } from './components/todoReducer'
 
 const App: React.FC = () => {
   const [todoText, setTodoText] = useState<string>('')
   const [todos, dispatchTodo] = useReducer(todoReducer, [])
+  const [toRemoves, dispatchToRemove] = useReducer(todoReducer, [])
 
   const handleAdd = (event: React.FormEvent) => {
     event.preventDefault()
 
-    dispatchTodo({
+    dispatchToRemove({
       type: 'add',
       id: Date.now(),
       todoText,
@@ -31,7 +31,12 @@ const App: React.FC = () => {
           setTodoText={setTodoText}
           handleAdd={handleAdd}
         />
-        <TodoList todos={todos} dispatchTodo={dispatchTodo} />
+        <TodoList
+          todos={todos}
+          dispatchTodo={dispatchTodo}
+          toRemoves={toRemoves}
+          dispatchToRemove={dispatchToRemove}
+        />
       </main>
     </>
   )
