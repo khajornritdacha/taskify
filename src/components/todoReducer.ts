@@ -2,6 +2,10 @@ import { Todo, ActionTodo } from "../models/model";
 
 export function todoReducer(todos: Todo[], action: ActionTodo) {
   switch (action.type) {
+    case "initialize": {
+      if (!action.todos) return [];
+      return action.todos;
+    }
     case "add": {
       return [
         ...todos,
